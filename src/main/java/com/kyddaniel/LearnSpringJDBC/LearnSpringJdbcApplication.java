@@ -1,9 +1,12 @@
 package com.kyddaniel.LearnSpringJDBC;
 
 import com.kyddaniel.LearnSpringJDBC.model.Student;
+import com.kyddaniel.LearnSpringJDBC.service.StudentService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import java.util.List;
 
 @SpringBootApplication
 public class LearnSpringJdbcApplication {
@@ -17,7 +20,12 @@ public class LearnSpringJdbcApplication {
 		student.setName("Alice");
 		student.setMarks(69);
 
-		addStudent(student);
+		StudentService service = context.getBean(StudentService.class);
+
+		service.addStudent(student);
+
+		List<Student> students = service.getStudents();
+		System.out.println(students);
 	}
 
 
