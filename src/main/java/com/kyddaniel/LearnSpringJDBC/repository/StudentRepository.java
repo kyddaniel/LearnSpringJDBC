@@ -3,8 +3,11 @@ package com.kyddaniel.LearnSpringJDBC.repository;
 import com.kyddaniel.LearnSpringJDBC.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,14 @@ public class StudentRepository {
 
     public List<Student> findAll() {
 
-        List<Student> students = new ArrayList<>();
-        return students;
+        String sql = "select * from student";
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            Student student = new Student();
+            student.setRollNo(rs.getInt("rollno"));
+            student.setName(rs.getString("name"));
+            student.setMarks(rs.getInt("marks"));
+            return student;
+        });
     }
 }
